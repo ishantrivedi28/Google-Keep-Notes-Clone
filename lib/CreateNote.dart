@@ -34,8 +34,10 @@ class _CreateNoteState extends State<CreateNote> {
                     title: title.text,
                     content: content.text,
                     createdTime: DateTime.now()));
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => Home()));
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                    (route) => false);
               },
               icon: Icon(Icons.save_outlined))
         ],

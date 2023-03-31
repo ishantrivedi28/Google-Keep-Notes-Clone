@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_keep_notes/ArchiveView.dart';
 import 'package:google_keep_notes/colors.dart';
 import 'package:google_keep_notes/services/auth.dart';
 import 'package:google_keep_notes/services/db.dart';
@@ -119,27 +118,35 @@ class _SideMenuState extends State<SideMenu> {
                     ),
                     actions: [
                       InkWell(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
                           child: Icon(
                             Icons.cancel_outlined,
                             color: white,
-                          )),
+                          ),
+                        ),
+                      ),
                       InkWell(
-                          onTap: () async {
-                            signOut();
-                            await LocalDataSaver.saveLoginData(false);
-                            await NotesDatabase.instance.deleteSQLDB();
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Login()));
-                          },
+                        onTap: () async {
+                          signOut();
+                          await LocalDataSaver.saveLoginData(false);
+                          await NotesDatabase.instance.deleteSQLDB();
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => Login()),
+                              (route) => false);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
                           child: Icon(
                             Icons.done,
                             color: white,
-                          )),
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 });

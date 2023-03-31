@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_keep_notes/CreateNote.dart';
-import 'package:google_keep_notes/EditNoteView.dart';
 import 'package:google_keep_notes/NoteView.dart';
 import 'package:google_keep_notes/SearchPage.dart';
 import 'package:google_keep_notes/SideMenuBar.dart';
 import 'package:google_keep_notes/colors.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:google_keep_notes/login.dart';
-import 'package:google_keep_notes/services/auth.dart';
 import 'package:google_keep_notes/services/db.dart';
 import 'package:google_keep_notes/services/localdb.dart';
 import 'Models/MyNoteModel.dart';

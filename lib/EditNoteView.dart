@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_keep_notes/NoteView.dart';
 import 'package:google_keep_notes/colors.dart';
 import 'package:google_keep_notes/services/db.dart';
 import 'Models/MyNoteModel.dart';
+import 'home.dart';
 
 class EditNoteView extends StatefulWidget {
   Note? note;
@@ -41,10 +41,10 @@ class _EditNoteViewState extends State<EditNoteView> {
                     createdTime: widget.note!.createdTime,
                     id: widget.note!.id);
                 await NotesDatabase.instance.updateNote(newNote);
-                Navigator.pushReplacement(
+                Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => NoteView(note: newNote)));
+                    MaterialPageRoute(builder: (context) => Home()),
+                    (route) => false);
               },
               icon: Icon(Icons.save_outlined))
         ],

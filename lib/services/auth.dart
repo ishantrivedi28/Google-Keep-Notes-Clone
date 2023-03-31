@@ -32,6 +32,7 @@ Future<User?> signInWithGoogle() async {
     final User? currentUser = await _auth.currentUser;
     assert(currentUser!.uid == user!.uid);
     // print(user);
+    print("signin done");
     var query = await FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
@@ -44,6 +45,7 @@ Future<User?> signInWithGoogle() async {
           .set({'Name': currentUser!.displayName, 'Email': currentUser.email});
       LocalDataSaver.saveSyncSet(true);
     }
+
     return user;
   } catch (e) {
     print(e);
