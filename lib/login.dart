@@ -25,22 +25,13 @@ class _LoginState extends State<Login> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              width: MediaQuery.of(context).size.height / 2,
-              height: MediaQuery.of(context).size.height / 2,
-
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                      'assets/keep.png',
-                    ),
-                    fit: BoxFit.cover),
-                // borderRadius: BorderRadius.circular(300),
-              ),
-
-              // color: Colors.blue,
+            CircleAvatar(
+              radius: 150,
+              backgroundImage: AssetImage('assets/keep.png'),
             ),
+
+            //   // color: Colors.blue,
+            // ),
             // Container(
             //   margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             //   child: ClipOval(

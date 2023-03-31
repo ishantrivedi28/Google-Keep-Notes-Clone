@@ -23,7 +23,9 @@ class _HomeState extends State<Home> {
   bool isLoading = true;
   late String? ImgUrl;
   bool isStaggered = true;
-  late List<Note> notesList;
+  List<Note> allNotesList = [];
+  List<Note> notesList = [];
+  List<Note> pinnedNotesList = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -45,9 +47,21 @@ class _HomeState extends State<Home> {
       }
     });
 
-    notesList = await NotesDatabase.instance.readAllNotes();
-    print(notesList[0].uniqueId);
-    print(Note.fromJson(notesList[0].toJson()).uniqueId);
+    allNotesList = await NotesDatabase.instance.readAllNotes();
+
+    for (var note in allNotesList) {
+      if (note.pin == false) {
+        notesList.add(note);
+      }
+    }
+
+    for (var e in allNotesList) {
+      if (e.pin == true) {
+        pinnedNotesList.add(e);
+      }
+    }
+    // print(notesList[0].uniqueId);
+    // print(Note.fromJson(notesList[0].toJson()).uniqueId);
     if (this.mounted) {
       setState(() {
         isLoading = false;
@@ -173,7 +187,7 @@ class _HomeState extends State<Home> {
                                     });
                                   },
                                   child: Icon(
-                                    Icons.grid_view,
+                                    isStaggered ? Icons.list : Icons.grid_view,
                                     color: white,
                                   ),
                                   style: ButtonStyle(
@@ -192,26 +206,15 @@ class _HomeState extends State<Home> {
                                 SizedBox(
                                   width: 9,
                                 ),
-                                GestureDetector(
-                                  onTap: () async {
-                                    signOut();
-                                    await LocalDataSaver.saveLoginData(false);
-                                    await NotesDatabase.instance.deleteSQLDB();
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Login()));
+                                CircleAvatar(
+                                  onBackgroundImageError:
+                                      (Object, StacktTrace) {
+                                    print("ok");
                                   },
-                                  child: CircleAvatar(
-                                    onBackgroundImageError:
-                                        (Object, StacktTrace) {
-                                      print("ok");
-                                    },
-                                    radius: 10,
-                                    backgroundColor: Colors.white,
-                                    backgroundImage:
-                                        NetworkImage(ImgUrl.toString()),
-                                  ),
+                                  radius: 16,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage:
+                                      NetworkImage(ImgUrl.toString()),
                                 ),
                               ],
                             ),
@@ -219,6 +222,25 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     ),
+                    if (pinnedNotesList.isNotEmpty)
+                      Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                        child: Column(children: [
+                          Text(
+                            "Pinned",
+                            style: TextStyle(
+                              color: white.withOpacity(0.5),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ]),
+                      ),
+                    if (isStaggered)
+                      notesSectionPinned()
+                    else
+                      notesListViewPinned(),
                     Container(
                       margin:
                           EdgeInsets.symmetric(horizontal: 25, vertical: 10),
@@ -296,6 +318,61 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget notesSectionPinned() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      //   height: MediaQuery.of(context).size.height,
+      child: MasonryGridView.count(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        crossAxisCount: 2,
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
+        itemCount: pinnedNotesList.length,
+        itemBuilder: ((context, index) => Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: white.withOpacity(0.4)),
+                  borderRadius: BorderRadius.circular(7)),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NoteView(
+                                note: pinnedNotesList[index],
+                              )));
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        pinnedNotesList[index].title,
+                        style: TextStyle(
+                          color: white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        pinnedNotesList[index].content.length > 250
+                            ? "${pinnedNotesList[index].content.substring(0, 250)}..."
+                            : pinnedNotesList[index].content,
+                        style: TextStyle(color: white, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )),
+      ),
+    );
+  }
+
   Widget notesListViewAll() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -304,34 +381,97 @@ class _HomeState extends State<Home> {
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: notesList.length,
-        itemBuilder: ((context, index) => Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              decoration: BoxDecoration(
-                  border: Border.all(color: white.withOpacity(0.4)),
-                  borderRadius: BorderRadius.circular(7)),
+        itemBuilder: ((context, index) => InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NoteView(
+                              note: notesList[index],
+                            )));
+              },
               child: Container(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      notesList[index].title,
-                      style: const TextStyle(
-                        color: white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                    border: Border.all(color: white.withOpacity(0.4)),
+                    borderRadius: BorderRadius.circular(7)),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        notesList[index].title,
+                        style: const TextStyle(
+                          color: white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      notesList[index].content.length > 250
-                          ? "${notesList[index].content.substring(0, 250)}..."
-                          : notesList[index].content,
-                      style: TextStyle(color: white, fontSize: 11),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        notesList[index].content.length > 250
+                            ? "${notesList[index].content.substring(0, 250)}..."
+                            : notesList[index].content,
+                        style: TextStyle(color: white, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )),
+      ),
+    );
+  }
+
+  Widget notesListViewPinned() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      //   height: MediaQuery.of(context).size.height,
+      child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: pinnedNotesList.length,
+        itemBuilder: ((context, index) => InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NoteView(
+                              note: pinnedNotesList[index],
+                            )));
+              },
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                    border: Border.all(color: white.withOpacity(0.4)),
+                    borderRadius: BorderRadius.circular(7)),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        pinnedNotesList[index].title,
+                        style: const TextStyle(
+                          color: white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        pinnedNotesList[index].content.length > 250
+                            ? "${pinnedNotesList[index].content.substring(0, 250)}..."
+                            : pinnedNotesList[index].content,
+                        style: TextStyle(color: white, fontSize: 11),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )),

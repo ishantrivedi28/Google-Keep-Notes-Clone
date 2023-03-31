@@ -36,10 +36,12 @@ class _NoteViewState extends State<NoteView> {
               },
               icon: Icon(
                   widget.note!.pin ? Icons.push_pin : Icons.push_pin_outlined)),
-          IconButton(
-              splashRadius: 17,
-              onPressed: () {},
-              icon: Icon(Icons.archive_outlined)),
+
+          ///Enable this after making archive functionality working
+          // IconButton(
+          //     splashRadius: 17,
+          //     onPressed: () {},
+          //     icon: Icon(Icons.archive_outlined)),
           IconButton(
               splashRadius: 17,
               onPressed: () async {

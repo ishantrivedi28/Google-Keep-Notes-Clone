@@ -49,59 +49,61 @@ class _EditNoteViewState extends State<EditNoteView> {
               icon: Icon(Icons.save_outlined))
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(15),
-        child: Column(children: [
-          Form(
-            child: TextFormField(
-              initialValue: widget.note!.title,
-              cursorColor: white,
-              onChanged: (value) {
-                newTitle = value;
-              },
-              style: const TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  hintText: "Title",
-                  hintStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey.withOpacity(0.8))),
-            ),
-          ),
-          Container(
-            height: 300,
-            child: Form(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(15),
+          child: Column(children: [
+            Form(
               child: TextFormField(
-                initialValue: widget.note!.content,
-                onChanged: (value) {
-                  newDet = value;
-                },
-                minLines: 50,
-                maxLines: null,
+                initialValue: widget.note!.title,
                 cursorColor: white,
-                keyboardType: TextInputType.multiline,
-                style: TextStyle(fontSize: 17, color: Colors.white),
+                onChanged: (value) {
+                  newTitle = value;
+                },
+                style: const TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     errorBorder: InputBorder.none,
                     disabledBorder: InputBorder.none,
-                    hintText: "Note",
+                    hintText: "Title",
                     hintStyle: TextStyle(
-                        color: Colors.grey.withOpacity(0.7),
-                        fontWeight: FontWeight.bold)),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.withOpacity(0.8))),
               ),
             ),
-          )
-        ]),
+            Container(
+              // height: 300,
+              child: Form(
+                child: TextFormField(
+                  initialValue: widget.note!.content,
+                  onChanged: (value) {
+                    newDet = value;
+                  },
+                  minLines: 30,
+                  maxLines: null,
+                  cursorColor: white,
+                  keyboardType: TextInputType.multiline,
+                  style: TextStyle(fontSize: 17, color: Colors.white),
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      hintText: "Note",
+                      hintStyle: TextStyle(
+                          color: Colors.grey.withOpacity(0.7),
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
+            )
+          ]),
+        ),
       ),
     );
   }

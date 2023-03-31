@@ -40,47 +40,51 @@ class _CreateNoteState extends State<CreateNote> {
               icon: Icon(Icons.save_outlined))
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(15),
-        child: Column(children: [
-          TextField(
-            controller: title,
-            cursorColor: white,
-            style: TextStyle(
-                fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-                hintText: "Title",
-                hintStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.withOpacity(0.8))),
-          ),
-          Container(
-            height: 300,
-            child: TextField(
-              minLines: 50,
-              controller: content,
-              maxLines: null,
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(15),
+          child: Column(children: [
+            TextField(
+              controller: title,
               cursorColor: white,
-              keyboardType: TextInputType.multiline,
-              style: TextStyle(fontSize: 17, color: Colors.white),
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
               decoration: InputDecoration(
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
-                  hintText: "Note",
+                  hintText: "Title",
                   hintStyle: TextStyle(
-                      color: Colors.grey.withOpacity(0.7),
-                      fontWeight: FontWeight.bold)),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.withOpacity(0.8))),
             ),
-          )
-        ]),
+            Container(
+              // height: 300,
+              child: TextField(
+                minLines: 30,
+                controller: content,
+                maxLines: null,
+                cursorColor: white,
+                keyboardType: TextInputType.multiline,
+                style: TextStyle(fontSize: 17, color: Colors.white),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    hintText: "Note",
+                    hintStyle: TextStyle(
+                        color: Colors.grey.withOpacity(0.7),
+                        fontWeight: FontWeight.bold)),
+              ),
+            )
+          ]),
+        ),
       ),
     );
   }
