@@ -1,4 +1,4 @@
-# KBC Quiz App
+# Google Keep Notes Clone
 
 ## Description
 The Google Keep Notes Clone app is a simple and intuitive application designed for users to quickly jot down their ideas, thoughts, and reminders. It allows users to create, edit, and delete notes with ease. The app features a clean and user-friendly interface, making it easy to navigate and find specific notes. With its powerful search functionalities, the Google Keep Notes Clone app is the perfect tool for staying organized and productive on-the-go.
