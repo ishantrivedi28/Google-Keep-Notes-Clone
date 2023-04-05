@@ -5,17 +5,17 @@ The Google Keep Notes Clone app is a simple and intuitive application designed f
 
 ## Functionality
 The application has the following features:  
-User can add, delete, update, read the notes.
-Can pin the important notes at the top.
-Turn off and on sync.
-Search the notes.
+User can add, delete, update, read the notes.  
+Can pin the important notes at the top.  
+Turn off and on sync.  
+Search the notes.  
 
-## Technology Used
-The application is built using the following technologies:  
+## Technology Used  
+The application is built using the following technologies:    
 Flutter SDK  
 Dart programming language  
-Firebase Firestore
-SQflite
+Firebase Firestore  
+SQflite  
 
 
 ## Screenshots:
